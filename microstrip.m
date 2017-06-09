@@ -16,11 +16,12 @@ CuResist = 16.78e-9;                %Resistivity of Copper
 CF = 0.0254;                        %Thou to mm conversion factor
 eta = 120*pi;                       %Intrinsic Impedance of free space
 %---DESIGN PARAMTERS-----
-Frequency = 9e9;
+Frequency = 5e9;
 Omg = 2.*pi.*Frequency;
+lambda_0 = c/Frequency;
 WaveNum = Omg/c;
 %substrate dimensions in mm (using conversion factor)
-Height = 100*CF;  
+Height = 50*CF;  
 Width = 24*CF;
 copper_t = 1.4*CF;
 Sub_epsr = 10.2;
@@ -66,3 +67,26 @@ if(Sub_epsr > 10)
 else
     F_t = c/(2*pi*Height/1000)*sqrt(2/(Sub_epsr-1))*atan(Sub_epsr);
 end
+
+%% Losses in dB/cm
+P = 1 - (W_H/4)^2;
+Q = 1 + 1/W_H + 1/(pi*W_H)*(log(2*Height/copper_t)-copper_t/Height);
+Rs = sqrt(pi*Frequency*Mu_0*CuResist);
+if (W_H <= 0.5/pi)
+
+    alpha_c = 8.68*Rs/(2*pi*Z_0*(Height/10))*P*(1+ 1/W_H+ 1/(pi*W_H)*(log(4*pi*Width/copper_t) + copper_t/Width));
+
+elseif (W_H > 0.5/pi) && (W_H <= 2)   
+    
+    alpha_c = 8.68*Rs/(2*pi*Z_0*(Height/10))*P*Q;
+    
+else
+    
+    alpha_c = 8.68*Rs/(2*pi*Z_0*(Height/10))*Q*(W_H + 2/pi*log(2*pi*exp(W_H/2+0.94)))^(-2)*(W_H + W_H/(pi*(W_H/2+0.94)));
+
+end
+
+
+alpha_d = 27.3*Sub_epsr/(sqrt(eps_eff))*(eps_eff-1)/(Sub_epsr-1)*Sub_lsstan/(lambda_0*10);
+    
+
