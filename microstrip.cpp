@@ -1,20 +1,22 @@
 // MAY 2017 Pouyan Keshavarzian
 // Microstrip Line Calculator
-// Adapted from Thomas Apperley's matlab script
 
 #include "config.h"
 
 int main(){
-
+// Ask user for substrate parameters
 substrate substrate1 = cue_user();
 
-cout << substrate1.thickness << "\n";
-cout << substrate1.width << "\n";
-cout << substrate1.length << "\n";
-cout << substrate1.epsilon << "\n";
-cout << substrate1.resistivity << "\n";
-cout << substrate1.tan_delta << "\n";
+double omega = 2*PI*substrate1.frequency;
+double lamda = c/substrate1.frequency;
+double wavenumber = omega/c;
+
+// state 1 where w/h is greater than 2
+
+// state 2 where w/h is less than 2
+
 return 0;
+
 }
 
 

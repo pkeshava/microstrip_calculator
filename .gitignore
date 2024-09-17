@@ -1,0 +1,6 @@
+*CMake*
+myprogram
+build/
+*.o
+
+

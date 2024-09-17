@@ -16,13 +16,13 @@ CuResist = 16.78e-9;                %Resistivity of Copper
 CF = 0.0254;                        %Thou to mm conversion factor
 eta = 120*pi;                       %Intrinsic Impedance of free space
 %---DESIGN PARAMTERS-----
-Frequency = 5e9;
+Frequency = 2.2e9;
 Omg = 2.*pi.*Frequency;
 lambda_0 = c/Frequency;
 WaveNum = Omg/c;
 %substrate dimensions in mm (using conversion factor)
 Height = 50*CF;  
-Width = 24*CF;
+Width = 10*CF;
 copper_t = 1.4*CF;
 Sub_epsr = 10.2;
 Sub_lsstan = 0.0023;
@@ -61,6 +61,10 @@ else
     Z_0 = 60/sqrt(eps_eff)*log(8/W_H+0.25*W_H);
 end
 
+%guided wavelength and lambda quarter
+lambda_g = lambda_0/sqrt(eps_eff);
+lambda_g_q = lambda_g/4;
+
 % Do quick Surface wave calc 
 if(Sub_epsr > 10)
     F_t = 10.6/(Height/10*sqrt(Sub_epsr))*1e9;
@@ -86,7 +90,15 @@ else
 
 end
 
-
 alpha_d = 27.3*Sub_epsr/(sqrt(eps_eff))*(eps_eff-1)/(Sub_epsr-1)*Sub_lsstan/(lambda_0*10);
     
+%% Chamfer formula from ADS
+
+M = 52 + 65*(exp(-1.35*W_H));
+M = M*CF;
+D = sqrt(2)*Width;
+D_eff = sqrt(2)*W_eff;
+
+X = M*D/100;
+X_eff = M*D_eff/100;
 

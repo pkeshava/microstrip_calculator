@@ -1,5 +1,6 @@
 #ifndef typedefinitions_h
 #define typedefinitions_h
+#include "config.h"
 
 typedef char CHAR;                   // Signed 8 bits
 typedef unsigned char UCHAR;         // Unsigned 8 bits
@@ -34,6 +35,16 @@ typedef enum {FALSE = 0, TRUE = !FALSE} bool;
 typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrorStatus;
+void cprint(void);
+void cplusprint(void);
+
+
+typedef const double CD;
+CD PI = 3.141592653;
+CD c  =  299792458;
+CD e  = 2.718281828;
+CD E0 = 8.85418782*pow(10,-12);
+CD Mu0 = 1.256637061*pow(10,-6);
 
 typedef struct substrate {
      double thickness;
@@ -46,8 +57,7 @@ typedef struct substrate {
      double Z0;
 } substrate;
 
-void cprint(void);
-void cplusprint(void);
+
 substrate cue_user(void);
 
 
